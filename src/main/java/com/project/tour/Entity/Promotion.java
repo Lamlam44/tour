@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class Promotion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long promotionId;
+    private String promotionId;
 
     @Column(name = "promotion_name", nullable = false)
     private String promotionName;

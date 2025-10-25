@@ -1,6 +1,7 @@
 package com.project.tour.Entity;
 
 import java.util.Set;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
@@ -16,10 +17,10 @@ import lombok.NoArgsConstructor;
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long invoiceId;
+    private String invoiceId;
 
     @Column(name = "invoice_created_at", nullable = false)
-    private String invoiceCreatedAt;
+    private LocalDateTime invoiceCreatedAt;
 
     @Column(name = "status", nullable = false)
     private String status;
@@ -39,4 +40,9 @@ public class Invoice {
         inverseJoinColumns = @JoinColumn(name = "promotion_id")
     )
     private Set<Promotion> promotions;
+
+    @PrePersist
+    protected void onCreate() {
+        invoiceCreatedAt = java.time.LocalDateTime.now();
+    }
 }

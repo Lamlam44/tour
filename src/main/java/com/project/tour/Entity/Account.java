@@ -24,9 +24,6 @@ public class Account {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "account_role_id", nullable = false)
-    private String accountRoleId;
-
     @Column(name = "account_created_at", nullable = false)
     private LocalDateTime accountCreatedAt;
 
@@ -42,4 +39,14 @@ public class Account {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "account")
     private Customer customer;
+
+    @PrePersist
+    protected void onCreate() {
+        accountCreatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        accountUpdatedAt = LocalDateTime.now();
+    }
 }

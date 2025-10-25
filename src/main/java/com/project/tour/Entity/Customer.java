@@ -21,10 +21,10 @@ public class Customer {
     @Column(name = "customer_name", nullable = false)
     private String customerName;
 
-    @Column(name = "customer_email", nullable = false)
+    @Column(name = "customer_email", nullable = false, unique = true)
     private String customerEmail;
 
-    @Column(name = "customer_phone", nullable = false)
+    @Column(name = "customer_phone", nullable = false, unique = true)
     private String customerPhone;
 
     @Column(name = "customer_address", nullable = false)

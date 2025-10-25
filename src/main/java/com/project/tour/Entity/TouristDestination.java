@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class TouristDestination {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long destinationId;
+    private String destinationId;
 
     @Column(name = "destination_name", nullable = false)
     private String destinationName;

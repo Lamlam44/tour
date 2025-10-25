@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class TravelVehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long vehicleId;
+    private String vehicleId;
 
     @Column(name = "vehicle_type", nullable = false)
     private String vehicleType;
