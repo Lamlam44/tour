@@ -44,7 +44,7 @@ public class Tour {
     private int tourRemainingSlots;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tour")
-    private Invoice invoice;
+    private Set<Invoice> invoices;
 
     @ManyToMany(mappedBy = "tours", fetch = FetchType.LAZY)
     private Set<Accommodation> accommodations;

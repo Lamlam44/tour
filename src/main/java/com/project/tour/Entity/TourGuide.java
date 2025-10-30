@@ -1,6 +1,7 @@
 package com.project.tour.Entity;
 
 import jakarta.persistence.*;
+import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,5 +30,5 @@ public class TourGuide {
     private int tourGuideExperienceYears;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tourGuide")
-    private Tour tour;
+    private Set<Tour> tours;
 }
