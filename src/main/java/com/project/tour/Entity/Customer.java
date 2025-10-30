@@ -15,7 +15,7 @@ import java.time.*;
 @Table(name = "customers")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String customerId;
 
     @Column(name = "customer_name", nullable = false)

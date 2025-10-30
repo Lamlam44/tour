@@ -7,8 +7,6 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import java.time.*;
-import java.util.Set;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,7 +15,7 @@ import java.util.UUID;
 @Table(name = "accounts")
 public class Account {
     @Id
-    @Column(name = "account_id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String accountId;
 
     @Column(name = "username", nullable = false)
@@ -37,29 +35,16 @@ public class Account {
     private AccountRole role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-    private Set<Invoice> invoices;
+    private Invoice invoice;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "account")
     private Customer customer;
 
     @PrePersist
     protected void onCreate() {
-        if (this.accountId == null) {
-            generateId();
-        }
-        LocalDateTime now = LocalDateTime.now();
-        accountCreatedAt = now;
-        accountUpdatedAt = now;
+        accountCreatedAt = LocalDateTime.now();
     }
 
-    public void generateId() {
-        if (this.accountId == null) {
-            this.accountId = "ACC-" + UUID.randomUUID()
-                .toString()
-                .substring(0, 8)
-                .toUpperCase();
-        }
-    }
     @PreUpdate
     protected void onUpdate() {
         accountUpdatedAt = LocalDateTime.now();

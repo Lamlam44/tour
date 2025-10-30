@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "account_roles")
 public class AccountRole {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String accountRoleId;
 
     @Column(name = "role_name", nullable = false)
