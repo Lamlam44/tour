@@ -1,7 +1,6 @@
 package com.project.tour.Entity;
 
 import jakarta.persistence.*;
-import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +28,6 @@ public class TourGuide {
     @Column(name = "tour_guide_experience_years", nullable = false)
     private int tourGuideExperienceYears;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tourGuide")
-    private Set<Tour> tours;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "tourGuide")
+    private Tour tour;
 }
