@@ -2,6 +2,7 @@ package com.project.tour.Entity;
 
 import java.util.Set;
 
+
 import jakarta.persistence.*;
 
 import lombok.Getter;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "accommodations")
 public class Accommodation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 10)
     private String accommodationId;
 
     @Column(name = "accommodation_name", nullable = false)

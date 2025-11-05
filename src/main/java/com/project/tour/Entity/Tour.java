@@ -7,7 +7,8 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import java.time.*;
-import java.util.Set;;
+import java.util.Set;
+
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ import java.util.Set;;
 @Table(name = "tours")
 public class Tour {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 10)
     private String tourId;
 
     @Column(name = "tour_name", nullable = false)
@@ -43,8 +44,8 @@ public class Tour {
     @Column(name = "tour_remaining_slots", nullable = false)
     private int tourRemainingSlots;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "tour")
-    private Invoice invoice;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tour")
+    private Set<Invoice> invoices;
 
     @ManyToMany(mappedBy = "tours", fetch = FetchType.LAZY)
     private Set<Accommodation> accommodations;
