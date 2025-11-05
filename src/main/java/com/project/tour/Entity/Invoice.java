@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "invoices")
 public class Invoice {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 10)
     private String invoiceId;
 
     @Column(name = "invoice_created_at", nullable = false)

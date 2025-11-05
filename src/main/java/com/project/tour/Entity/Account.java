@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+
 import java.time.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,7 +17,7 @@ import java.time.*;
 @Table(name = "accounts")
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 10)
     private String accountId;
 
     @Column(name = "username", nullable = false)
@@ -35,7 +37,7 @@ public class Account {
     private AccountRole role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-    private Invoice invoice;
+    private Set<Invoice> invoices;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "account")
     private Customer customer;

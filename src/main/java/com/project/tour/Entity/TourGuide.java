@@ -1,10 +1,13 @@
 package com.project.tour.Entity;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
+
 
 @Getter
 @Setter
@@ -13,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tour_guides")
 public class TourGuide {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 10)
     private String tourGuideId;
 
     @Column(name = "tour_guide_name", nullable = false)
@@ -29,5 +32,5 @@ public class TourGuide {
     private int tourGuideExperienceYears;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tourGuide")
-    private Tour tour;
+    private Set<Tour> tours;
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "account_roles")
 public class AccountRole {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 10)
     private String accountRoleId;
 
     @Column(name = "role_name", nullable = false)

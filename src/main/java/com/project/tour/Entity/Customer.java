@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+
 import java.time.*;
 
 @Getter
@@ -15,7 +16,7 @@ import java.time.*;
 @Table(name = "customers")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 10)
     private String customerId;
 
     @Column(name = "customer_name", nullable = false)
