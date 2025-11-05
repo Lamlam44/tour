@@ -2,7 +2,6 @@ package com.project.tour.Entity;
 
 import java.util.Set;
 
-
 import jakarta.persistence.*;
 
 import lombok.Getter;
@@ -34,11 +33,6 @@ public class Accommodation {
     @Column(name = "accommodation_type", nullable = false)
     private String accommodationType;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "accommodation_amenities",
-        joinColumns = @JoinColumn(name = "accommodation_id"),
-        inverseJoinColumns = @JoinColumn(name = "tour_id")
-    )
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "accommodation")
     private Set<Tour> tours;
 }

@@ -47,16 +47,27 @@ public class Tour {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tour")
     private Set<Invoice> invoices;
 
-    @ManyToMany(mappedBy = "tours", fetch = FetchType.LAZY)
-    private Set<Accommodation> accommodations;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "accommodation_id")
+    private Accommodation accommodation;
 
     @ManyToMany(mappedBy = "tours", fetch = FetchType.LAZY)
     private Set<Promotion> promotions;
 
-    @ManyToMany(mappedBy = "tours", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "tour_vehicles",
+        joinColumns = @JoinColumn(name = "tour_id"),
+        inverseJoinColumns = @JoinColumn(name = "vehicle_id")
+    )
     private Set<TravelVehicle> travelVehicles;
 
-    @ManyToMany(mappedBy = "tours", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "tour_destinations",
+        joinColumns = @JoinColumn(name = "tour_id"),
+        inverseJoinColumns = @JoinColumn(name = "destination_id")
+    )
     private Set<TouristDestination> touristDestinations;
 
     @ManyToOne(fetch = FetchType.LAZY)

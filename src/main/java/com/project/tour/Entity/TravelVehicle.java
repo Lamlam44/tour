@@ -28,11 +28,6 @@ public class TravelVehicle {
     @Column(name = "rental_price_per_day", nullable = false)
     private Double rentalPricePerDay;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "tour_vehicles",
-        joinColumns = @JoinColumn(name = "vehicle_id"),
-        inverseJoinColumns = @JoinColumn(name = "tour_id")
-    )
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "travelVehicles")
     private Set<Tour> tours;
 }

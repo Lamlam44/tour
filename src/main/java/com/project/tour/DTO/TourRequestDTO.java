@@ -46,8 +46,7 @@ public class TourRequestDTO {
     @NotNull(message = "Cần chỉ định hướng dẫn viên")
     private String tourGuideId;
 
-    private Set<String> accommodationIds;
-    private Set<String> promotionIds;
+    private String accommodationId;
     private Set<String> travelVehicleIds;
     private Set<String> touristDestinationIds;
 }
