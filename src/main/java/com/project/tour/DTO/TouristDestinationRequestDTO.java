@@ -20,6 +20,4 @@ public class TouristDestinationRequestDTO {
     @PositiveOrZero(message = "Phí vào cửa không thể là số âm")
     private Double entryFee;
     
-    // Lưu ý: Việc gán một điểm đến vào một tour cụ thể thường được
-    // quản lý thông qua API của Tour để dễ kiểm soát hơn.
 }

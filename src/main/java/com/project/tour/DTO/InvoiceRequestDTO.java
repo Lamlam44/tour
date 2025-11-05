@@ -14,11 +14,11 @@ public class InvoiceRequestDTO {
     private String status;
 
     @NotNull(message = "Cần chỉ định tour")
-    private String tourId; // Giả sử tourId là String như trong Tour Entity của bạn
+    private String tourId;
 
     @NotNull(message = "Cần liên kết với một tài khoản")
-    private Long accountId; // Giả sử accountId là Long như trong Account Entity
+    private String accountId; 
 
     // Client chỉ cần gửi danh sách ID của các khuyến mãi
-    private Set<Long> promotionIds; // Giả sử promotionId là Long
+    private Set<String> promotionIds; 
 }

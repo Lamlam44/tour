@@ -31,11 +31,6 @@ public class TouristDestination {
     @Column(name = "entry_fee")
     private Double entryFee;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "tour_destinations",
-        joinColumns = @JoinColumn(name = "destination_id"),
-        inverseJoinColumns = @JoinColumn(name = "tour_id")
-    )
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "touristDestinations")
     private Set<Tour> tours;
 }

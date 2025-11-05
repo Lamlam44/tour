@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class PromotionResponseDTO {
 
-    private Long promotionId;
+    private String promotionId;
     private String promotionName;
     private Double discountPercentage;
     private String startDate;
@@ -19,7 +19,4 @@ public class PromotionResponseDTO {
     // Trả về một Set chứa ID và tên của các tour được áp dụng
     private Set<Map<String, String>> appliedTours;
 
-    // Lưu ý: Chúng ta không trả về danh sách Invoices ở đây
-    // để tránh dữ liệu lớn và lỗi vòng lặp. Nếu cần, hãy
-    // tạo một API riêng. Ví dụ: GET /api/promotions/{id}/invoices
 }

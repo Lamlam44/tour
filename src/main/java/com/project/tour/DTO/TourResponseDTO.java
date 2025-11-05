@@ -23,13 +23,8 @@ public class TourResponseDTO {
     // Trả về các đối tượng DTO tóm lược, không phải Entity đầy đủ
 
     private TourGuideResponseDTO tourGuide;
-    private Set<AccommodationResponseDTO> accommodations;
-    private Set<PromotionResponseDTO> promotions;
+    private AccommodationResponseDTO accommodation;
     private Set<TravelVehicleResponseDTO> travelVehicles;
     private Set<TouristDestinationResponseDTO> touristDestinations;
     
-    // Lưu ý: Chúng ta không trả về danh sách Invoices ở đây. 
-    // Vì một tour có thể có hàng ngàn hóa đơn, trả về tất cả sẽ rất nặng.
-    // Cách tốt nhất là tạo một API riêng để lấy danh sách hóa đơn cho một tour cụ thể.
-    // Ví dụ: GET /api/tours/{tourId}/invoices
 }
