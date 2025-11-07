@@ -55,6 +55,9 @@ public class Account {
     @Column(name = "account_updated_at", nullable = false)
     private LocalDateTime accountUpdatedAt;
 
+    @Column(name = "status", nullable = false)
+    private boolean status = true;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private AccountRole role;
