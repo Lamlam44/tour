@@ -12,6 +12,7 @@ public class AccountResponseDTO {
     private String username;
     private LocalDateTime accountCreatedAt;
     private LocalDateTime accountUpdatedAt;
+    private boolean status;
 
     // Trả về thông tin vai trò dưới dạng một DTO khác để dễ quản lý
     private AccountRoleResponseDTO role;
