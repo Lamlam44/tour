@@ -1,11 +1,15 @@
 package com.project.tour.Entity;
 
 import jakarta.persistence.*;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+// Thêm các import này
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+import com.project.tour.StringPrefixedSequenceIdGenerator;
 
 import java.time.*;
 import java.util.Set;
@@ -15,9 +19,28 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "accounts")
+@SuppressWarnings("deprecation") // Tắt cảnh báo "deprecated"
 public class Account {
+    
     @Id
-    @Column(length = 10)
+    @Column(length = 10) 
+    
+    // Dùng @GeneratedValue và @GenericGenerator
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_id_gen")
+    @GenericGenerator(
+        name = "account_id_gen", // Tên của generator
+        
+        // **THAY ĐỔI QUAN TRỌNG**: 
+        // Trỏ thẳng "strategy" đến LỚP JAVA của bạn
+        strategy = "com.project.tour.StringPrefixedSequenceIdGenerator", 
+        
+        // Truyền tham số cho class Java
+        parameters = {
+            @Parameter(name = StringPrefixedSequenceIdGenerator.SEQUENCE_PARAM, value = "account_seq"), // Tên sequence trong CSDL
+            @Parameter(name = StringPrefixedSequenceIdGenerator.PREFIX_PARAM, value = "ACCT"), // 3 chữ cái
+            @Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAM, value = "%06d") // 6 số
+        }
+    )
     private String accountId;
 
     @Column(name = "username", nullable = false)
@@ -32,6 +55,9 @@ public class Account {
     @Column(name = "account_updated_at", nullable = false)
     private LocalDateTime accountUpdatedAt;
 
+    @Column(name = "status", nullable = false)
+    private boolean status = true;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private AccountRole role;
@@ -45,6 +71,7 @@ public class Account {
     @PrePersist
     protected void onCreate() {
         accountCreatedAt = LocalDateTime.now();
+        accountUpdatedAt = LocalDateTime.now(); // Đảm bảo updateAt cũng được set khi tạo
     }
 
     @PreUpdate

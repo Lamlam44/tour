@@ -8,19 +8,17 @@ import lombok.Setter;
 @Setter
 public class InvoiceResponseDTO {
 
-    private Long invoiceId;
+    private String invoiceId;
     private String invoiceCreatedAt;
     private String status;
 
     // --- Thông tin tóm lược từ Tour ---
-    private String tourId;
-    private String tourName;
+    private TourResponseDTO tour;
 
     // --- Thông tin tóm lược từ Account ---
-    private Long accountId;
-    private String username;
+    private AccountResponseDTO account;
 
     // --- Thông tin tóm lược từ Promotion ---
     // Trả về danh sách tên các khuyến mãi đã áp dụng
-    private Set<String> appliedPromotions;
+    private Set<PromotionResponseDTO> appliedPromotions;
 }

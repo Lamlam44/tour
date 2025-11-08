@@ -1,6 +1,5 @@
 package com.project.tour.DTO;
 
-import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +13,4 @@ public class AccommodationResponseDTO {
     private Double rating;
     private Double pricePerNight;
     private String accommodationType;
-
-    // Trả về một danh sách tóm lược các tour có liên quan
-    private Set<TourResponseDTO> tours;
 }

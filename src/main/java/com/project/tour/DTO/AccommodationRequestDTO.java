@@ -24,6 +24,4 @@ public class AccommodationRequestDTO {
     @NotBlank(message = "Loại hình nơi ở không được để trống")
     private String accommodationType;
     
-    // Khi tạo/cập nhật, client không cần gửi danh sách Tour
-    // Việc gán một nơi ở vào một tour nên được thực hiện thông qua API của Tour
 }

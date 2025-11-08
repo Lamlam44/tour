@@ -1,11 +1,15 @@
 package com.project.tour.Entity;
 
 import jakarta.persistence.*;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+// Thêm các import này
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+import com.project.tour.StringPrefixedSequenceIdGenerator;
 
 import java.time.*;
 
@@ -14,9 +18,28 @@ import java.time.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "customers")
+@SuppressWarnings("deprecation") // Tắt cảnh báo "deprecated"
 public class Customer {
+    
     @Id
-    @Column(length = 10)
+    @Column(length = 10) // 4 chữ + 6 số = 10
+    
+    // Dùng @GeneratedValue và @GenericGenerator
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_gen")
+    @GenericGenerator(
+        name = "customer_id_gen", // Tên của generator
+        
+        // **THAY ĐỔI QUAN TRỌNG**: 
+        // Trỏ thẳng "strategy" đến LỚP JAVA của bạn
+        strategy = "com.project.tour.StringPrefixedSequenceIdGenerator", 
+        
+        // Truyền tham số cho class Java
+        parameters = {
+            @Parameter(name = StringPrefixedSequenceIdGenerator.SEQUENCE_PARAM, value = "customer_seq"), // Tên sequence trong CSDL
+            @Parameter(name = StringPrefixedSequenceIdGenerator.PREFIX_PARAM, value = "CUST"), // 4 chữ cái
+            @Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAM, value = "%06d") // 6 số
+        }
+    )
     private String customerId;
 
     @Column(name = "customer_name", nullable = false)
