@@ -13,6 +13,7 @@ import com.project.tour.StringPrefixedSequenceIdGenerator;
 
 import java.time.*;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -23,7 +24,7 @@ import java.util.Set;
 public class Account {
     
     @Id
-    @Column(length = 10) 
+    @Column(name = account_id, length = 10) 
     
     // Dùng @GeneratedValue và @GenericGenerator
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_id_gen")
@@ -70,10 +71,22 @@ public class Account {
 
     @PrePersist
     protected void onCreate() {
-        accountCreatedAt = LocalDateTime.now();
-        accountUpdatedAt = LocalDateTime.now(); // Đảm bảo updateAt cũng được set khi tạo
+        if (this.accountId == null) {
+            generateId();
+        }
+        LocalDateTime now = LocalDateTime.now();
+        accountCreatedAt = now;
+        accountUpdatedAt = now;
     }
 
+    public void generateId() {
+        if (this.accountId == null) {
+            this.accountId = "ACC-" + UUID.randomUUID()
+                .toString()
+                .substring(0, 8)
+                .toUpperCase();
+        }
+    }
     @PreUpdate
     protected void onUpdate() {
         accountUpdatedAt = LocalDateTime.now();
