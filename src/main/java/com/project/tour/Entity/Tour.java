@@ -69,7 +69,7 @@ public class Tour {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tour")
     private Set<Invoice> invoices;
-
+ 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "accommodation_id")
     private Accommodation accommodation;
