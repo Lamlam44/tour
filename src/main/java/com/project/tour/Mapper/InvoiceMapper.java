@@ -5,6 +5,7 @@ import com.project.tour.DTO.InvoiceResponseDTO;
 import com.project.tour.Entity.Invoice;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 /**
  * Mapper này chuyển đổi giữa Invoice (Entity) và các DTO của nó.
@@ -44,4 +45,11 @@ public interface InvoiceMapper {
     @Mapping(target = "account", ignore = true) // Service sẽ xử lý từ accountId
     @Mapping(target = "promotions", ignore = true) // Service sẽ xử lý từ promotionIds
     Invoice invoiceRequestDTOToInvoice(InvoiceRequestDTO requestDTO);
+
+    @Mapping(target = "invoiceId", ignore = true) // 1. Không bao giờ cập nhật ID
+    @Mapping(target = "invoiceCreatedAt", ignore = true) // 2. Không cập nhật thời gian tạo
+    @Mapping(target = "tour", ignore = true) // 3. Không cập nhật
+    @Mapping(target = "account", ignore = true) // 4. Không cập nhật
+    @Mapping(target = "promotions", ignore = true) // 5. Không cập nhật
+    void updateInvoiceFromDto(InvoiceRequestDTO dto, @MappingTarget Invoice entity);
 }

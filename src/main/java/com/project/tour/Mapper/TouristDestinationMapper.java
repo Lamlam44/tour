@@ -5,6 +5,7 @@ import com.project.tour.DTO.TouristDestinationResponseDTO;
 import com.project.tour.Entity.TouristDestination;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 /**
  * Mapper này chuyển đổi giữa TouristDestination (Entity) và các DTO của nó.
@@ -28,4 +29,8 @@ public interface TouristDestinationMapper {
     @Mapping(target = "destinationId", ignore = true)
     @Mapping(target = "tours", ignore = true)
     TouristDestination destinationRequestDTOToDestination(TouristDestinationRequestDTO requestDTO);
+
+    @Mapping(target = "destinationId", ignore = true) // 1. Không bao giờ cập nhật ID
+    @Mapping(target = "tours", ignore = true) // 2. Không cập nhật danh sách tour ở đây
+    void updateTouristDestinationFromDto(TouristDestinationRequestDTO dto, @MappingTarget TouristDestination entity);
 }

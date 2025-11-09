@@ -5,6 +5,7 @@ import com.project.tour.DTO.AccountResponseDTO;
 import com.project.tour.Entity.Account;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget; // <-- Import quan trọng được thêm vào
 
 /**
  * Mapper này chuyển đổi giữa Account (Entity) và các DTO của nó.
@@ -19,27 +20,40 @@ public interface AccountMapper {
 
     /**
      * Chuyển đổi từ Account (Entity) sang AccountResponseDTO.
-     * Dùng khi trả dữ liệu về cho client.
-     *
-     * MapStruct sẽ tự động dùng 'AccountRoleMapper' (trong 'uses')
-     * để chuyển 'account.role' (Entity) thành 'dto.role' (DTO).
+     * Dùng khi trả dữ liệu về cho client (ĐỌC).
      */
     AccountResponseDTO accountToResponseDTO(Account account);
 
     /**
-     * Chuyển đổi từ AccountRequestDTO sang Account (Entity).
-     * Dùng khi tạo mới một Tài khoản.
+     * Chuyển đổi từ AccountRequestDTO sang Account (Entity) MỚI.
+     * Dùng khi TẠO MỚI một Tài khoản.
      *
-     * Lưu ý: Mật khẩu (password) sẽ được map nguyên bản (plain text).
-     * Lớp Service sẽ có trách nhiệm MÃ HÓA (encode) mật khẩu này
-     * trước khi lưu vào database.
+     * Lưu ý: Các trường logic (password, role) sẽ được Service
+     * xử lý và ghi đè sau khi gọi hàm map này.
      */
-    // Chúng ta phải "bỏ qua" (ignore) các trường sau:
-    @Mapping(target = "accountId", ignore = true) // 1. ID sẽ được tạo ở Service.
-    @Mapping(target = "accountCreatedAt", ignore = true) // 2. Tự động gán bằng @PrePersist.
-    @Mapping(target = "accountUpdatedAt", ignore = true) // 3. Tự động gán bằng @PrePersist.
-    @Mapping(target = "role", ignore = true) // 4. Sẽ được Service xử lý (từ roleId).
-    @Mapping(target = "invoices", ignore = true) // 5. Tài khoản mới không có hóa đơn.
-    @Mapping(target = "customer", ignore = true) // 6. Customer sẽ được tạo/gán riêng.
+    @Mapping(target = "accountId", ignore = true)
+    @Mapping(target = "accountCreatedAt", ignore = true)
+    @Mapping(target = "accountUpdatedAt", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "invoices", ignore = true)
+    @Mapping(target = "customer", ignore = true)
+    @Mapping(target = "status", ignore = true)
+    // 'password' có thể được map, Service sẽ mã hóa và ghi đè sau
     Account accountRequestDTOToAccount(AccountRequestDTO requestDTO);
+
+    /**
+     * (PHƯƠNG THỨC MỚI)
+     * Cập nhật một 'Account' (entity) ĐÃ TỒN TẠI từ 'AccountRequestDTO'.
+     * Dùng @MappingTarget để báo MapStruct "đổ" dữ liệu từ DTO
+     * vào 'entity' đã tồn tại, thay vì tạo một 'entity' mới (CẬP NHẬT).
+     */
+    @Mapping(target = "accountId", ignore = true) // 1. Không bao giờ cập nhật ID
+    @Mapping(target = "accountCreatedAt", ignore = true) // 2. Không cập nhật ngày tạo
+    @Mapping(target = "accountUpdatedAt", ignore = true) // 3. Sẽ được @PreUpdate xử lý
+    @Mapping(target = "role", ignore = true) // 4. Service sẽ set role riêng (từ roleId)
+    @Mapping(target = "password", ignore = true) // 5. Service sẽ mã hóa và set riêng
+    @Mapping(target = "invoices", ignore = true)
+    @Mapping(target = "customer", ignore = true)
+    @Mapping(target = "status", ignore = true)
+    void updateAccountFromDto(AccountRequestDTO dto, @MappingTarget Account entity);
 }
