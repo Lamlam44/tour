@@ -49,6 +49,18 @@ public class Invoice {
     @Column(name = "status", nullable = false)
     private String status;
 
+    @Column(name = "discount_amount", nullable = false)
+    private Double discountAmount;
+
+    @Column(name = "tax_amount", nullable = false)
+    private Double taxAmount;
+
+    @Column(name = "total_amount", nullable = false)
+    private Double totalAmount;
+
+    @Column(name = "payment_method", nullable = false)
+    private String paymentMethod;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tour_id")
     private Tour tour;
