@@ -5,6 +5,7 @@ import com.project.tour.DTO.CustomerResponseDTO;
 import com.project.tour.Entity.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 /**
  * Mapper này chuyển đổi giữa Customer (Entity) và các DTO của nó.
@@ -35,4 +36,8 @@ public interface CustomerMapper {
     @Mapping(target = "customerId", ignore = true)
     @Mapping(target = "account", ignore = true)
     Customer customerRequestDTOToCustomer(CustomerRequestDTO requestDTO);
+
+    @Mapping(target = "customerId", ignore = true) // 1. Không bao giờ cập nhật ID
+    @Mapping(target = "account", ignore = true)    // 2. Không cập nhật Account ở đây
+    void updateCustomerFromDto(CustomerRequestDTO dto, @MappingTarget Customer entity);
 }

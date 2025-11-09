@@ -11,6 +11,10 @@ public class InvoiceResponseDTO {
     private String invoiceId;
     private String invoiceCreatedAt;
     private String status;
+    private Double discountAmount;
+    private Double taxAmount;
+    private Double totalAmount;
+    private String paymentMethod;
 
     // --- Thông tin tóm lược từ Tour ---
     private TourResponseDTO tour;

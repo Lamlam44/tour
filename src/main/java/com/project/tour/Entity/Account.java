@@ -23,7 +23,7 @@ import java.util.Set;
 public class Account {
     
     @Id
-    @Column(length = 10) 
+    @Column(name = "account_id", length = 10) 
     
     // Dùng @GeneratedValue và @GenericGenerator
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_id_gen")
@@ -70,8 +70,9 @@ public class Account {
 
     @PrePersist
     protected void onCreate() {
-        accountCreatedAt = LocalDateTime.now();
-        accountUpdatedAt = LocalDateTime.now(); // Đảm bảo updateAt cũng được set khi tạo
+        LocalDateTime now = LocalDateTime.now();
+        accountCreatedAt = now;
+        accountUpdatedAt = now;
     }
 
     @PreUpdate

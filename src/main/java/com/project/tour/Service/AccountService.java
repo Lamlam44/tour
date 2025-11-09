@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 
 import com.project.tour.DTO.*;
 import com.project.tour.Entity.*;
+import com.project.tour.Mapper.AccountMapper;
 import com.project.tour.Repository.*;
 import lombok.RequiredArgsConstructor;
 
@@ -19,77 +20,67 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountRoleRepository roleRepository;
+    private final AccountMapper accountMapper;
 
     @Transactional
     public AccountResponseDTO create(AccountRequestDTO req) {
         if (accountRepository.existsByUsername(req.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username đã tồn tại");
         }
 
         AccountRole role = roleRepository.findById(req.getRoleId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role không tồn tại"));
 
-        Account entity = new Account();
-        entity.setUsername(req.getUsername());
-        entity.setPassword(req.getPassword()); // TODO: hash password if needed
-        entity.setRole(role);
+        Account accountEntity = accountMapper.accountRequestDTOToAccount(req);
+        accountEntity.setUsername(req.getUsername());
+        accountEntity.setPassword(req.getPassword());
+        accountEntity.setRole(role);
 
-        Account saved = accountRepository.save(entity);
-        return toResponse(saved);
+        Account saved = accountRepository.save(accountEntity);
+        return accountMapper.accountToResponseDTO(saved);
     }
 
     @Transactional(readOnly = true)
     public AccountResponseDTO getById(String id) {
         Account acc = accountRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
-        return toResponse(acc);
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tài khoản không được tìm thấy"));
+        AccountResponseDTO accountDTO = accountMapper.accountToResponseDTO(acc);
+        return accountDTO;
     }
 
     @Transactional(readOnly = true)
     public List<AccountResponseDTO> getAll() {
-        return accountRepository.findAll().stream().map(this::toResponse).collect(Collectors.toList());
+        return accountRepository.findAll().stream().map(accountMapper::accountToResponseDTO).collect(Collectors.toList());
     }
 
     @Transactional
     public AccountResponseDTO update(String id, AccountRequestDTO req) {
-        Account acc = accountRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
+        Account existingAccount = accountRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản"));
+    
+        if (req.getUsername() == null || req.getUsername().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username không được để trống");
+        }
+        if (req.getPassword() == null || req.getPassword().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Password không được để trống");
+        }
+        if (req.getRoleId() == null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Role không được để trống");
+        }
+        AccountRole role = roleRepository.findById(req.getRoleId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy role"));
 
-        if (req.getUsername() != null && !req.getUsername().isBlank()) {
-            acc.setUsername(req.getUsername());
-        }
-        if (req.getPassword() != null && !req.getPassword().isBlank()) {
-            acc.setPassword(req.getPassword()); // TODO: hash if needed
-        }
-        if (req.getRoleId() != null) {
-            AccountRole role = roleRepository.findById(req.getRoleId())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found"));
-            acc.setRole(role);
-        }
-        Account saved = accountRepository.save(acc);
-        return toResponse(saved);
+        accountMapper.updateAccountFromDto(req, existingAccount);
+        existingAccount.setRole(role);
+        Account saved = accountRepository.save(existingAccount);
+        return accountMapper.accountToResponseDTO(saved);
     }
 
     @Transactional
     public void delete(String id) {
         if (!accountRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản");
         }
         accountRepository.deleteById(id);
-    }
-
-    private AccountResponseDTO toResponse(Account entity) {
-        AccountResponseDTO dto = new AccountResponseDTO();
-        dto.setAccountId(entity.getAccountId());
-        dto.setUsername(entity.getUsername());
-        dto.setAccountCreatedAt(entity.getAccountCreatedAt());
-
-        if (entity.getRole() != null) {
-            AccountRoleResponseDTO rdto = new AccountRoleResponseDTO();
-            rdto.setAccountRoleId(entity.getRole().getAccountRoleId());
-            rdto.setRoleName(entity.getRole().getRoleName());
-            dto.setRole(rdto);
-        }
-        return dto;
     }
 }
