@@ -6,6 +6,7 @@ import com.project.tour.Entity.Promotion;
 import com.project.tour.Entity.Tour; // Bắt buộc import Tour
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.Map; // Import Map
 import java.util.Set; // Import Set
@@ -60,4 +61,9 @@ public interface PromotionMapper {
                 })
                 .collect(Collectors.toSet());
     }
+
+    @Mapping(target = "promotionId", ignore = true) // 1. Không bao giờ cập nhật ID
+    @Mapping(target = "invoices", ignore = true)    // 2. Không liên quan đến hóa đơn ở đây
+    @Mapping(target = "tours", ignore = true)       // 3. Service sẽ xử lý từ tourIds
+    void updatePromotionFromDto(PromotionRequestDTO dto, @MappingTarget Promotion entity);
 }

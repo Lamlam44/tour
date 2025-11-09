@@ -5,6 +5,7 @@ import com.project.tour.DTO.TourGuideResponseDTO;
 import com.project.tour.Entity.TourGuide;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 /**
  * Mapper này chuyển đổi giữa TourGuide (Entity) và các DTO của nó.
@@ -28,4 +29,8 @@ public interface TourGuideMapper {
     @Mapping(target = "tourGuideId", ignore = true)
     @Mapping(target = "tours", ignore = true)
     TourGuide tourGuideRequestDTOToTourGuide(TourGuideRequestDTO requestDTO);
+
+    @Mapping(target = "tourGuideId", ignore = true) // 1. Không bao giờ cập nhật ID
+    @Mapping(target = "tours", ignore = true) // 2. Không cập nhật danh sách tour ở đây
+    void updateTourGuideFromDto(TourGuideRequestDTO dto, @MappingTarget TourGuide entity);
 }

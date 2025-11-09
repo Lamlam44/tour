@@ -5,6 +5,7 @@ import com.project.tour.DTO.TourResponseDTO;
 import com.project.tour.Entity.Tour;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(
     componentModel = "spring",
@@ -36,4 +37,12 @@ public interface TourMapper {
     @Mapping(target = "touristDestinations", ignore = true)
     Tour tourRequestDTOToTour(TourRequestDTO requestDTO);
     
+    @Mapping(target = "tourId", ignore = true) // 1. Không bao giờ cập nhật ID
+    @Mapping(target = "invoices", ignore = true) // 2. Giữ nguyên danh sách hóa đơn
+    @Mapping(target = "promotions", ignore = true) // 3. Giữ nguyên danh sách khuyến mãi
+    @Mapping(target = "tourGuide", ignore = true) // 4. Giữ nguyên hướng dẫn viên
+    @Mapping(target = "accommodation", ignore = true) // 5. Giữ nguyên chỗ ở
+    @Mapping(target = "travelVehicles", ignore = true) // 6. Giữ nguyên phương tiện
+    @Mapping(target = "touristDestinations", ignore = true) // 7. Giữ nguyên điểm đến
+    void updateTourFromDto(TourRequestDTO dto, @MappingTarget Tour entity);
 }
