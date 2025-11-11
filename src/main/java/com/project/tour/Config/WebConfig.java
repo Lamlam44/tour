@@ -1,4 +1,4 @@
-package com.project.tour.Config;
+package com.project.tour.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
