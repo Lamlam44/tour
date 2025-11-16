@@ -1,6 +1,7 @@
 package com.project.tour.Entity;
 
 import jakarta.persistence.*;
+import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,7 @@ import java.time.*;
 @Table(name = "customers")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "customer_id", updatable = false, nullable = false)
     private String customerId;
 
     @Column(name = "customer_name", nullable = false)
@@ -36,4 +37,20 @@ public class Customer {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.customerId == null) {
+            generateId();
+        }
+    }
+
+    public void generateId() {
+        if (this.customerId == null) {
+            this.customerId = "CUS-" + UUID.randomUUID()
+                .toString()
+                .substring(0, 8)
+                .toUpperCase();
+        }
+    }
 }

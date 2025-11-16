@@ -28,6 +28,7 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
 
+
     @GetMapping("/{id}")
     public AccountResponseDTO getById(@PathVariable String id) {
         return accountService.getById(id);
@@ -47,5 +48,11 @@ public class AccountController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
         accountService.delete(id);
+    }
+
+    @GetMapping("/verify")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void verify(@RequestParam("token") String token) {
+        accountService.verifyAccount(token);
     }
 }
