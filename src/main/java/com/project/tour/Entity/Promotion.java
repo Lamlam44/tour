@@ -53,6 +53,10 @@ public class Promotion {
 
     @Column(name = "end_date", nullable = false)
     private String endDate;
+
+    @Column(name = "description")
+    private String description;
+
     
     @ManyToMany(mappedBy = "promotions", fetch = FetchType.LAZY)
     private Set<Invoice> invoices;

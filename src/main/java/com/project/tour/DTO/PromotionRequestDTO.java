@@ -22,6 +22,9 @@ public class PromotionRequestDTO {
     @NotBlank(message = "Ngày kết thúc không được để trống")
     private String endDate;
 
+    @NotBlank(message = "Mô tả không được để trống")
+    private String description;
+
     // Client chỉ cần gửi danh sách ID của các tour áp dụng khuyến mãi
     private Set<String> tourIds; // Giữ nguyên kiểu String cho tourId
 }
