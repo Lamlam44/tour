@@ -3,43 +3,20 @@ package com.project.tour.Entity;
 import java.util.Set;
 
 import jakarta.persistence.*;
+import java.util.UUID;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
-
-// Thêm các import này
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
-import com.project.tour.StringPrefixedSequenceIdGenerator;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "account_roles")
-@SuppressWarnings("deprecation") // Tắt cảnh báo "deprecated"
 public class AccountRole {
-    
     @Id
-    @Column(length = 10) // 4 chữ + 6 số = 10
-    
-    // Dùng @GeneratedValue và @GenericGenerator
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_gen")
-    @GenericGenerator(
-        name = "role_id_gen", // Tên của generator
-        
-        // **THAY ĐỔI QUAN TRỌNG**: 
-        // Trỏ thẳng "strategy" đến LỚP JAVA của bạn
-        strategy = "com.project.tour.StringPrefixedSequenceIdGenerator", 
-        
-        // Truyền tham số cho class Java
-        parameters = {
-            @Parameter(name = StringPrefixedSequenceIdGenerator.SEQUENCE_PARAM, value = "role_seq"), // Tên sequence trong CSDL
-            @Parameter(name = StringPrefixedSequenceIdGenerator.PREFIX_PARAM, value = "ROLE"), // 4 chữ cái
-            @Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAM, value = "%06d") // 6 số
-        }
-    )
+    @Column(name = "account_role_id", updatable = false, nullable = false)
     private String accountRoleId;
 
     @Column(name = "role_name", nullable = false)
@@ -47,4 +24,20 @@ public class AccountRole {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private Set<Account> accounts;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.accountRoleId == null) {
+            generateId();
+        }
+    }
+
+    public void generateId() {
+        if (this.accountRoleId == null) {
+            this.accountRoleId = "ROL-" + UUID.randomUUID()
+                .toString()
+                .substring(0, 8)
+                .toUpperCase();
+        }
+    }
 }

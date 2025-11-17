@@ -15,7 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/accounts")
+@RequestMapping("/accounts")
 @Validated
 @RequiredArgsConstructor
 public class AccountController {
@@ -27,6 +27,7 @@ public class AccountController {
         AccountResponseDTO res = accountService.create(req);
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
+
 
     @GetMapping("/{id}")
     public AccountResponseDTO getById(@PathVariable String id) {
@@ -47,5 +48,11 @@ public class AccountController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
         accountService.delete(id);
+    }
+
+    @GetMapping("/verify")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void verify(@RequestParam("token") String token) {
+        accountService.verifyAccount(token);
     }
 }
