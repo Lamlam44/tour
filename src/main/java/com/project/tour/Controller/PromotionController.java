@@ -2,7 +2,7 @@ package com.project.tour.Controller;
 
 import com.project.tour.DTO.PromotionRequestDTO;
 import com.project.tour.DTO.PromotionResponseDTO;
-import com.project.tour.Service.PromotionService;
+import com.project.tour.Service.promotion.PromotionService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

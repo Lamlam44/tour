@@ -1,4 +1,4 @@
-package com.project.tour.Service;
+package com.project.tour.Service.promotion;
 
 import com.project.tour.DTO.PromotionRequestDTO;
 import com.project.tour.DTO.PromotionResponseDTO;

@@ -1,4 +1,4 @@
-package com.project.tour.Service.impl;
+package com.project.tour.Service.promotion;
 
 import com.project.tour.DTO.PromotionRequestDTO;
 import com.project.tour.DTO.PromotionResponseDTO;
@@ -6,7 +6,7 @@ import com.project.tour.Entity.Promotion;
 import com.project.tour.Entity.Tour;
 import com.project.tour.Repository.PromotionRepository;
 import com.project.tour.Repository.TourRepository;
-import com.project.tour.Service.PromotionService;
+import com.project.tour.Service.promotion.PromotionService;
 
 import lombok.RequiredArgsConstructor;
 
