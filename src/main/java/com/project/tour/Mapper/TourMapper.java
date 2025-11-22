@@ -3,9 +3,11 @@ package com.project.tour.Mapper;
 import com.project.tour.DTO.TourRequestDTO;
 import com.project.tour.DTO.TourResponseDTO;
 import com.project.tour.Entity.Tour;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(
     componentModel = "spring",
@@ -23,7 +25,7 @@ public interface TourMapper {
      * MapStruct sẽ tự động dùng AccommodationMapper để chuyển
      * "tour.accommodation" (Entity) sang "dto.accommodation" (DTO)
      */
-    TourResponseDTO tourToTourResponseDTO(Tour tour);
+    TourResponseDTO tourToResponseDTO(Tour tour);
 
     /**
      * Chuyển đổi từ TourRequestDTO (Request) sang Tour (Entity).
@@ -44,5 +46,6 @@ public interface TourMapper {
     @Mapping(target = "accommodation", ignore = true) // 5. Giữ nguyên chỗ ở
     @Mapping(target = "travelVehicles", ignore = true) // 6. Giữ nguyên phương tiện
     @Mapping(target = "touristDestinations", ignore = true) // 7. Giữ nguyên điểm đến
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateTourFromDto(TourRequestDTO dto, @MappingTarget Tour entity);
 }

@@ -3,6 +3,8 @@ package com.project.tour.Entity;
 import java.util.Set;
 import java.time.LocalDateTime;
 
+import com.project.tour.common.PaymentMethod;
+import com.project.tour.common.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,8 +48,12 @@ public class Invoice {
     @Column(name = "invoice_created_at", nullable = false)
     private LocalDateTime invoiceCreatedAt;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private String status;
+    private PaymentStatus status;
+
+    @Column(nullable = false)
+    private Integer numberOfPeople;
 
     @Column(name = "discount_amount", nullable = false)
     private Double discountAmount;
@@ -58,15 +64,25 @@ public class Invoice {
     @Column(name = "total_amount", nullable = false)
     private Double totalAmount;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "payment_method", nullable = false)
-    private String paymentMethod;
+    private PaymentMethod paymentMethod;
+
+    @Column(name = "customer_name")
+    private String customerName;
+
+    @Column(name = "customer_phone")
+    private String customerPhone;
+
+    @Column(name = "customer_email")
+    private String customerEmail;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tour_id")
     private Tour tour;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "account_id", nullable = true)
     private Account account;
 
     @ManyToMany(fetch = FetchType.LAZY)

@@ -46,6 +46,14 @@ public class AccommodationService {
         return accommodationRepository.findAll().stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<AccommodationResponseDTO> findByAccommodationName(String name) {
+        return accommodationRepository.findByAccommodationNameContainingIgnoreCase(name)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public AccommodationResponseDTO update(String id, AccommodationRequestDTO req) {
         Accommodation a = accommodationRepository.findById(id)

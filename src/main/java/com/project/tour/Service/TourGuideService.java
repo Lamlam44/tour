@@ -45,6 +45,14 @@ public class TourGuideService {
         return tourGuideRepository.findAll().stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<TourGuideResponseDTO> findByGuideName(String name) {
+        return tourGuideRepository.findByTourGuideNameContainingIgnoreCase(name)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public TourGuideResponseDTO update(String id, TourGuideRequestDTO req) {
         TourGuide tg = tourGuideRepository.findById(id)

@@ -40,6 +40,14 @@ public class TravelVehicleService {
     }
 
     @Transactional(readOnly = true)
+    public List<TravelVehicleResponseDTO> getByVehicleType(String vehicleType) {
+        return travelVehicleRepository.findByVehicleTypeContainingIgnoreCase(vehicleType)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
     public List<TravelVehicleResponseDTO> getAll() {
         return travelVehicleRepository.findAll().stream().map(this::toResponse).collect(Collectors.toList());
     }

@@ -6,7 +6,6 @@ import com.project.tour.Entity.Promotion;
 import com.project.tour.Entity.Tour;
 import com.project.tour.Repository.PromotionRepository;
 import com.project.tour.Repository.TourRepository;
-import com.project.tour.Service.promotion.PromotionService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -51,6 +50,14 @@ public class PromotionServiceImpl implements PromotionService {
     @Override
     public List<PromotionResponseDTO> getAllPromotions() {
         return promotionRepository.findAll()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PromotionResponseDTO> findByPromotionName(String name) {
+        return promotionRepository.findByPromotionNameContainingIgnoreCase(name)
                 .stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());

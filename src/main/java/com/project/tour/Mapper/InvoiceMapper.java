@@ -3,9 +3,11 @@ package com.project.tour.Mapper;
 import com.project.tour.DTO.InvoiceRequestDTO;
 import com.project.tour.DTO.InvoiceResponseDTO;
 import com.project.tour.Entity.Invoice;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 /**
  * Mapper này chuyển đổi giữa Invoice (Entity) và các DTO của nó.
@@ -51,5 +53,6 @@ public interface InvoiceMapper {
     @Mapping(target = "tour", ignore = true) // 3. Không cập nhật
     @Mapping(target = "account", ignore = true) // 4. Không cập nhật
     @Mapping(target = "promotions", ignore = true) // 5. Không cập nhật
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateInvoiceFromDto(InvoiceRequestDTO dto, @MappingTarget Invoice entity);
 }

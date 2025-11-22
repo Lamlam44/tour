@@ -3,9 +3,11 @@ package com.project.tour.Mapper;
 import com.project.tour.DTO.AccountRequestDTO;
 import com.project.tour.DTO.AccountResponseDTO;
 import com.project.tour.Entity.Account;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget; // <-- Import quan trọng được thêm vào
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy; // <-- Import quan trọng được thêm vào
 
 /**
  * Mapper này chuyển đổi giữa Account (Entity) và các DTO của nó.
@@ -55,5 +57,6 @@ public interface AccountMapper {
     @Mapping(target = "invoices", ignore = true)
     @Mapping(target = "customer", ignore = true)
     @Mapping(target = "status", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateAccountFromDto(AccountRequestDTO dto, @MappingTarget Account entity);
 }

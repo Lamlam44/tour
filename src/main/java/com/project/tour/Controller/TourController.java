@@ -38,6 +38,11 @@ public class TourController {
         return tourService.getAll();
     }
 
+    @GetMapping("/search")
+    public List<TourResponseDTO> searchTours(@RequestParam String name) {
+        return tourService.findByTourName(name);
+    }
+
     @PutMapping("/{id}")
     public TourResponseDTO update(@PathVariable String id, @Valid @RequestBody TourRequestDTO req) {
         return tourService.update(id, req);

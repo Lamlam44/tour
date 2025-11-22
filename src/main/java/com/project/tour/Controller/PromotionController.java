@@ -39,6 +39,11 @@ public class PromotionController {
         return ResponseEntity.ok(promotionService.getAllPromotions());
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<PromotionResponseDTO>> searchPromotions(@RequestParam String name) {
+        return ResponseEntity.ok(promotionService.findByPromotionName(name));
+    }
+
     // ===========================
     // GET BY ID
     // ===========================

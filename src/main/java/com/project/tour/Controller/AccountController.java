@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.project.tour.DTO.AccountRequestDTO;
 import com.project.tour.DTO.AccountResponseDTO;
+import com.project.tour.DTO.AccountRoleResponseDTO;
 import com.project.tour.Service.AccountService;
 
 import jakarta.validation.Valid;
@@ -36,6 +37,11 @@ public class AccountController {
     @GetMapping
     public List<AccountResponseDTO> getAll() {
         return accountService.getAll();
+    }
+
+    @GetMapping("/roles/search")
+    public List<AccountRoleResponseDTO> searchRoles(@RequestParam String name) {
+        return accountService.findRolesByName(name);
     }
 
     @PutMapping("/{id}")

@@ -45,6 +45,14 @@ public class TouristDestinationService {
         return touristDestinationRepository.findAll().stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<TouristDestinationResponseDTO> findByDestinationName(String name) {
+        return touristDestinationRepository.findByDestinationNameContainingIgnoreCase(name)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public TouristDestinationResponseDTO update(String id, TouristDestinationRequestDTO req) {
         TouristDestination td = touristDestinationRepository.findById(id)

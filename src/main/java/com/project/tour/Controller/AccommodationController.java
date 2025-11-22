@@ -38,6 +38,11 @@ public class AccommodationController {
         return accommodationService.getAll();
     }
 
+    @GetMapping("/search")
+    public List<AccommodationResponseDTO> searchAccommodations(@RequestParam String name) {
+        return accommodationService.findByAccommodationName(name);
+    }
+
     @PutMapping("/{id}")
     public AccommodationResponseDTO update(@PathVariable String id, @Valid @RequestBody AccommodationRequestDTO req) {
         return accommodationService.update(id, req);

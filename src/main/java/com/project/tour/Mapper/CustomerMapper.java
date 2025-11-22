@@ -3,9 +3,11 @@ package com.project.tour.Mapper;
 import com.project.tour.DTO.CustomerRequestDTO;
 import com.project.tour.DTO.CustomerResponseDTO;
 import com.project.tour.Entity.Customer;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 /**
  * Mapper này chuyển đổi giữa Customer (Entity) và các DTO của nó.
@@ -39,5 +41,6 @@ public interface CustomerMapper {
 
     @Mapping(target = "customerId", ignore = true) // 1. Không bao giờ cập nhật ID
     @Mapping(target = "account", ignore = true)    // 2. Không cập nhật Account ở đây
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateCustomerFromDto(CustomerRequestDTO dto, @MappingTarget Customer entity);
 }

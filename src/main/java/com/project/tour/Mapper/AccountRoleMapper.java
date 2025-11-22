@@ -3,8 +3,11 @@ package com.project.tour.Mapper;
 import com.project.tour.DTO.AccountRoleRequestDTO;
 import com.project.tour.DTO.AccountRoleResponseDTO;
 import com.project.tour.Entity.AccountRole;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 /**
  * Mapper này chuyển đổi giữa AccountRole (Entity) và các DTO của nó.
@@ -28,4 +31,9 @@ public interface AccountRoleMapper {
     @Mapping(target = "accountRoleId", ignore = true)
     @Mapping(target = "accounts", ignore = true)
     AccountRole accountRoleRequestDTOToAccountRole(AccountRoleRequestDTO requestDTO);
+
+    @Mapping(target = "accountRoleId", ignore = true)
+    @Mapping(target = "accounts", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateAccountRoleFromDto(AccountRoleRequestDTO requestDTO, @MappingTarget AccountRole accountRole);
 }

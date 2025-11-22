@@ -11,6 +11,8 @@ public interface PromotionService {
 
     List<PromotionResponseDTO> getAllPromotions();
 
+    List<PromotionResponseDTO> findByPromotionName(String name);
+
     PromotionResponseDTO getPromotionById(String id);
 
     PromotionResponseDTO updatePromotion(String id, PromotionRequestDTO dto);

@@ -38,6 +38,11 @@ public class CustomerController {
         return customerService.getAll();
     }
 
+    @GetMapping("/search")
+    public List<CustomerResponseDTO> searchCustomers(@RequestParam String name) {
+        return customerService.findByCustomerName(name);
+    }
+
     @PutMapping("/{id}")
     public CustomerResponseDTO update(@PathVariable String id, @Valid @RequestBody CustomerRequestDTO req) {
         return customerService.update(id, req);

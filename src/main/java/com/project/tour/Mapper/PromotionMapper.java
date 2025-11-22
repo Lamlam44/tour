@@ -4,9 +4,11 @@ import com.project.tour.DTO.PromotionRequestDTO;
 import com.project.tour.DTO.PromotionResponseDTO;
 import com.project.tour.Entity.Promotion;
 import com.project.tour.Entity.Tour; // Bắt buộc import Tour
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.Map; // Import Map
 import java.util.Set; // Import Set
@@ -65,5 +67,6 @@ public interface PromotionMapper {
     @Mapping(target = "promotionId", ignore = true) // 1. Không bao giờ cập nhật ID
     @Mapping(target = "invoices", ignore = true)    // 2. Không liên quan đến hóa đơn ở đây
     @Mapping(target = "tours", ignore = true)       // 3. Service sẽ xử lý từ tourIds
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updatePromotionFromDto(PromotionRequestDTO dto, @MappingTarget Promotion entity);
 }

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import com.project.tour.DTO.*;
 import com.project.tour.Entity.*;
 import com.project.tour.Mapper.AccountMapper;
+import com.project.tour.Mapper.AccountRoleMapper;
 import com.project.tour.Repository.*;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,7 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountRoleRepository roleRepository;
     private final AccountMapper accountMapper;
+    private final AccountRoleMapper roleMapper;
 
     @Transactional
     public AccountResponseDTO create(AccountRequestDTO req) {
@@ -51,6 +53,14 @@ public class AccountService {
     @Transactional(readOnly = true)
     public List<AccountResponseDTO> getAll() {
         return accountRepository.findAll().stream().map(accountMapper::accountToResponseDTO).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<AccountRoleResponseDTO> findRolesByName(String name) {
+        return roleRepository.findByRoleNameContainingIgnoreCase(name)
+                .stream()
+                .map(roleMapper::accountRoleToResponseDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional

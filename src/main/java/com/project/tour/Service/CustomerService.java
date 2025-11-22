@@ -57,6 +57,14 @@ public class CustomerService {
         return customerRepository.findAll().stream().map(customerMapper::customerToResponseDTO).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<CustomerResponseDTO> findByCustomerName(String name) {
+        return customerRepository.findByCustomerNameContainingIgnoreCase(name)
+                .stream()
+                .map(customerMapper::customerToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public CustomerResponseDTO update(String id, CustomerRequestDTO req) {
         Customer c = customerRepository.findById(id)

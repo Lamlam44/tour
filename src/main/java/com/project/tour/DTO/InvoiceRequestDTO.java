@@ -1,6 +1,7 @@
 package com.project.tour.DTO;
 
-import jakarta.validation.constraints.NotBlank;
+import com.project.tour.common.PaymentMethod;
+import com.project.tour.common.PaymentStatus;
 import jakarta.validation.constraints.NotNull;
 import java.util.Set;
 import lombok.Getter;
@@ -10,25 +11,31 @@ import lombok.Setter;
 @Setter
 public class InvoiceRequestDTO {
 
-    @NotBlank(message = "Trạng thái không được để trống")
-    private String status;
+    // Status is set by the backend, should not be part of the request
+    private PaymentStatus status;
 
-    @NotBlank(message = "Số tiền giảm giá không được để trống")
+    @NotNull(message = "Số tiền giảm giá không được để trống")
     private Double discountAmount;
 
-    @NotBlank(message = "Số tiền thuế không được để trống")
+    @NotNull(message = "Số tiền thuế không được để trống")
     private Double taxAmount;
 
-    @NotBlank(message = "Tổng số tiền không được để trống")
+    @NotNull(message = "Tổng số tiền không được để trống")
     private Double totalAmount;
 
-    @NotBlank(message = "Phương thức thanh toán không được để trống")
-    private String paymentMethod;
+    @NotNull(message = "Cần chỉ định số người tham gia")
+    private Integer numberOfPeople;
+
+    // Payment method is set during payment, not creation
+    private PaymentMethod paymentMethod;
+
+    private String customerName;
+    private String customerPhone;
+    private String customerEmail;
 
     @NotNull(message = "Cần chỉ định tour")
     private String tourId;
 
-    @NotNull(message = "Cần liên kết với một tài khoản")
     private String accountId; 
 
     // Client chỉ cần gửi danh sách ID của các khuyến mãi

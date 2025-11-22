@@ -38,6 +38,11 @@ public class TouristDestinationController {
         return touristDestinationService.getAll();
     }
 
+    @GetMapping("/search")
+    public List<TouristDestinationResponseDTO> searchTouristDestinations(@RequestParam String name) {
+        return touristDestinationService.findByDestinationName(name);
+    }
+
     @PutMapping("/{id}")
     public TouristDestinationResponseDTO update(@PathVariable String id,
             @Valid @RequestBody TouristDestinationRequestDTO req) {

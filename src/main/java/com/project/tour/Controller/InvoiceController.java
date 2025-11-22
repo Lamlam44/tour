@@ -43,9 +43,9 @@ public class InvoiceController {
 		return invoiceService.update(id, req);
 	}
 
-	@DeleteMapping("/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable String id) {
-		invoiceService.delete(id);
+		@DeleteMapping("/{id}")
+		@ResponseStatus(HttpStatus.NO_CONTENT)
+		public void delete(@PathVariable String id) {
+			invoiceService.delete(id);
+		}
 	}
-}

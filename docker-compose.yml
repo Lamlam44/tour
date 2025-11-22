@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # 1. Cấu hình MySQL Server
+  mysqldb:
+    image: mysql:8.0
+    container_name: tour_mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456  # Mật khẩu khớp với file properties của bạn
+      - MYSQL_DATABASE=quanlybantour # Tên DB khớp với file properties
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  # 2. Cấu hình RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: tour_rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"   # Cổng để Spring Boot kết nối
+      - "15672:15672" # Cổng để bạn vào web quản lý
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+volumes:
+  db_data:

@@ -4,9 +4,11 @@ import com.project.tour.DTO.AccommodationRequestDTO;
 import com.project.tour.DTO.AccommodationResponseDTO;
 import com.project.tour.Entity.Accommodation;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 /**
  * Mapper này chuyển đổi giữa Accommodation (Entity) và các DTO của nó.
@@ -38,5 +40,6 @@ public interface AccommodationMapper {
 
     @Mapping(target = "accommodationId", ignore = true) // 1. Không bao giờ cập nhật ID
     @Mapping(target = "tours", ignore = true) // 2. Không cập nhật danh sách Tour ở đây
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateAccommodationFromDto(AccommodationRequestDTO dto, @MappingTarget Accommodation entity);
 }

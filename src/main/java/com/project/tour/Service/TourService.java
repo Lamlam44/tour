@@ -49,6 +49,14 @@ public class TourService {
         return tourRepository.findAll().stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<TourResponseDTO> findByTourName(String name) {
+        return tourRepository.findByTourNameContainingIgnoreCase(name)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public TourResponseDTO update(String id, TourRequestDTO req) {
         Tour t = tourRepository.findById(id)
