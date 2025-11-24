@@ -23,6 +23,5 @@ public class InvoiceResponseDTO {
     private AccountResponseDTO account;
 
     // --- Thông tin tóm lược từ Promotion ---
-    // Trả về danh sách tên các khuyến mãi đã áp dụng
     private Set<PromotionResponseDTO> appliedPromotions;
 }

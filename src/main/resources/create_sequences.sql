@@ -12,7 +12,6 @@ DROP TABLE IF EXISTS accommodation_seq;
 DROP TABLE IF EXISTS destination_seq;
 DROP TABLE IF EXISTS vehicle_seq;
 DROP TABLE IF EXISTS customer_seq;
-DROP TABLE IF EXISTS promotion_seq;
 DROP TABLE IF EXISTS invoice_seq;
 
 -- =====================================================
@@ -55,11 +54,6 @@ CREATE TABLE customer_seq (
 );
 INSERT INTO customer_seq VALUES (1);
 
--- Sequence for Promotions (if needed)
-CREATE TABLE promotion_seq (
-    next_val BIGINT NOT NULL
-);
-INSERT INTO promotion_seq VALUES (1);
 
 -- Sequence for Invoices (if needed)
 CREATE TABLE invoice_seq (
@@ -86,7 +80,5 @@ UNION ALL
 SELECT 'vehicle_seq', next_val FROM vehicle_seq
 UNION ALL
 SELECT 'customer_seq', next_val FROM customer_seq
-UNION ALL
-SELECT 'promotion_seq', next_val FROM promotion_seq
 UNION ALL
 SELECT 'invoice_seq', next_val FROM invoice_seq;
