@@ -1,6 +1,8 @@
 package com.project.tour.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import com.project.tour.Mapper.AccountRoleMapper;
 import com.project.tour.Repository.*;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 @Service
 @RequiredArgsConstructor
 public class AccountService {
@@ -23,6 +27,9 @@ public class AccountService {
     private final AccountRoleRepository roleRepository;
     private final AccountMapper accountMapper;
     private final AccountRoleMapper roleMapper;
+
+    private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Transactional
     public AccountResponseDTO create(AccountRequestDTO req) {
@@ -35,10 +42,21 @@ public class AccountService {
 
         Account accountEntity = accountMapper.accountRequestDTOToAccount(req);
         accountEntity.setUsername(req.getUsername());
-        accountEntity.setPassword(req.getPassword());
+        accountEntity.setPassword(passwordEncoder.encode(req.getPassword())); // mã hóa mật khẩu
         accountEntity.setRole(role);
 
+        // Khởi tạo token xác thực email
+        String token = UUID.randomUUID().toString();
+        accountEntity.setVerificationToken(token);
+        accountEntity.setVerificationTokenExpiry(LocalDateTime.now().plusHours(24));
+        accountEntity.setEmailVerified(false);
+
         Account saved = accountRepository.save(accountEntity);
+
+        // Gửi email xác thực (username giả định là email)
+        try {
+            emailService.sendVerificationEmail(saved.getUsername(), token);
+        } catch (Exception ignored) {}
         return accountMapper.accountToResponseDTO(saved);
     }
 
@@ -81,6 +99,7 @@ public class AccountService {
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy role"));
 
         accountMapper.updateAccountFromDto(req, existingAccount);
+        existingAccount.setPassword(passwordEncoder.encode(req.getPassword()));
         existingAccount.setRole(role);
         Account saved = accountRepository.save(existingAccount);
         return accountMapper.accountToResponseDTO(saved);
@@ -92,5 +111,24 @@ public class AccountService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản");
         }
         accountRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void verifyAccount(String token) {
+        Account acc = accountRepository.findByVerificationToken(token)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Token không hợp lệ"));
+        if (acc.isEmailVerified()) {
+            return;
+        }
+        if (acc.getVerificationTokenExpiry() == null || acc.getVerificationTokenExpiry().isBefore(LocalDateTime.now())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token đã hết hạn");
+        }
+        acc.setEmailVerified(true);
+        acc.setVerificationToken(null);
+        acc.setVerificationTokenExpiry(null);
+        accountRepository.save(acc);
+        try {
+            emailService.sendWelcomeEmail(acc.getUsername());
+        } catch (Exception ignored) {}
     }
 }

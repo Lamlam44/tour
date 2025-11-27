@@ -58,10 +58,10 @@ public class Promotion {
     private String description;
 
     
-    @ManyToMany(mappedBy = "promotions", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "promotions", fetch = FetchType.EAGER)
     private Set<Invoice> invoices;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "tour_promotions",
         joinColumns = @JoinColumn(name = "promotion_id"),

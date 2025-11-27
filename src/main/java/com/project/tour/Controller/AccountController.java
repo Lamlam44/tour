@@ -54,4 +54,10 @@ public class AccountController {
     public void delete(@PathVariable String id) {
         accountService.delete(id);
     }
+
+    @GetMapping("/verify")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void verify(@RequestParam("token") String token) {
+        accountService.verifyAccount(token);
+    }
 }

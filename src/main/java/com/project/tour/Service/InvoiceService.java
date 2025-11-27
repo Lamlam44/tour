@@ -39,7 +39,7 @@ public class InvoiceService {
         int updatedRows = tourRepository.decreaseSlots(req.getTourId(), req.getNumberOfPeople());
     
         if (updatedRows == 0) {
-            throw new RuntimeException("Rất tiếc, tour này vừa hết chỗ hoặc không đủ vé cho bạn!");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Rất tiếc, tour này vừa hết chỗ hoặc không đủ vé cho bạn!");
         }
 
         Invoice invoiceEntity = invoiceMapper.invoiceRequestDTOToInvoice(req);
@@ -69,7 +69,7 @@ public class InvoiceService {
         }
         invoiceEntity.setTour(tour);
         invoiceEntity.setPromotions(promotionsSet);
-        invoiceEntity.setPaymentMethod(PaymentMethod.CASH);
+        invoiceEntity.setPaymentMethod(req.getPaymentMethod());
         invoiceEntity.setStatus(PaymentStatus.UNPAID); // Set initial status to UNPAID
         Invoice saved = invoiceRepository.save(invoiceEntity);
 

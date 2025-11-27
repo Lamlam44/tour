@@ -40,6 +40,9 @@ public interface AccountMapper {
     @Mapping(target = "invoices", ignore = true)
     @Mapping(target = "customer", ignore = true)
     @Mapping(target = "status", ignore = true)
+    @Mapping(target = "emailVerified", ignore = true)
+    @Mapping(target = "verificationToken", ignore = true)
+    @Mapping(target = "verificationTokenExpiry", ignore = true)
     // 'password' có thể được map, Service sẽ mã hóa và ghi đè sau
     Account accountRequestDTOToAccount(AccountRequestDTO requestDTO);
 
@@ -57,6 +60,9 @@ public interface AccountMapper {
     @Mapping(target = "invoices", ignore = true)
     @Mapping(target = "customer", ignore = true)
     @Mapping(target = "status", ignore = true)
+    @Mapping(target = "emailVerified", ignore = true)
+    @Mapping(target = "verificationToken", ignore = true)
+    @Mapping(target = "verificationTokenExpiry", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateAccountFromDto(AccountRequestDTO dto, @MappingTarget Account entity);
 }

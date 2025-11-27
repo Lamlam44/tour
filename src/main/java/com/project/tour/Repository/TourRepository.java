@@ -20,7 +20,7 @@ public interface TourRepository extends JpaRepository<Tour, String> {
 
     List<Tour> findByTourNameContainingIgnoreCase(String tourName);
     @Modifying // Báo cho Spring biết đây là câu lệnh UPDATE/DELETE
-    @Query("UPDATE Tour t SET t.remainingSlots = t.remainingSlots - :amount " +
-        "WHERE t.id = :tourId AND t.remainingSlots >= :amount")
+    @Query("UPDATE Tour t SET t.tourRemainingSlots = t.tourRemainingSlots - :amount " +
+        "WHERE t.id = :tourId AND t.tourRemainingSlots >= :amount")
     int decreaseSlots(@Param("tourId") String tourId, @Param("amount") int amount);
 }

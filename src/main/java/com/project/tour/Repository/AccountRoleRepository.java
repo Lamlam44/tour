@@ -5,9 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import com.project.tour.Entity.AccountRole;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AccountRoleRepository extends JpaRepository<AccountRole, String> {
-    List<AccountRole> findByRoleNameContainingIgnoreCase(String roleName);
+    Optional<AccountRole> findByRoleNameContainingIgnoreCase(String roleName);
 }

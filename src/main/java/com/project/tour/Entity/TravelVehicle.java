@@ -51,6 +51,6 @@ public class TravelVehicle {
     @Column(name = "rental_price_per_day", nullable = false)
     private Double rentalPricePerDay;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "travelVehicles")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "travelVehicles")
     private Set<Tour> tours;
 }

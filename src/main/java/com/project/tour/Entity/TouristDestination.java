@@ -54,6 +54,6 @@ public class TouristDestination {
     @Column(name = "entry_fee")
     private Double entryFee;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "touristDestinations")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "touristDestinations")
     private Set<Tour> tours;
 }

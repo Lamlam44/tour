@@ -49,7 +49,7 @@ public class Invoice {
     private LocalDateTime invoiceCreatedAt;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", columnDefinition = "VARCHAR(50) NOT NULL")
     private PaymentStatus status;
 
     @Column(nullable = false)
@@ -65,7 +65,7 @@ public class Invoice {
     private Double totalAmount;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "payment_method", nullable = false)
+    @Column(name = "payment_method", columnDefinition = "VARCHAR(50) DEFAULT NULL")
     private PaymentMethod paymentMethod;
 
     @Column(name = "customer_name")
@@ -85,7 +85,7 @@ public class Invoice {
     @JoinColumn(name = "account_id", nullable = true)
     private Account account;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "invoice_promotions",
         joinColumns = @JoinColumn(name = "invoice_id"),

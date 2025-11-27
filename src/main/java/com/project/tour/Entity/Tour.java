@@ -74,10 +74,10 @@ public class Tour {
     @JoinColumn(name = "accommodation_id")
     private Accommodation accommodation;
 
-    @ManyToMany(mappedBy = "tours", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tours", fetch = FetchType.EAGER)
     private Set<Promotion> promotions;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "tour_vehicles",
         joinColumns = @JoinColumn(name = "tour_id"),
@@ -85,7 +85,7 @@ public class Tour {
     )
     private Set<TravelVehicle> travelVehicles;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "tour_destinations",
         joinColumns = @JoinColumn(name = "tour_id"),

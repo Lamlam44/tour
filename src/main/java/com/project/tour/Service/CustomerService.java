@@ -68,7 +68,7 @@ public class CustomerService {
     @Transactional
     public CustomerResponseDTO update(String id, CustomerRequestDTO req) {
         Customer c = customerRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy khách hàng"));
 
         if (req.getCustomerName() == null || req.getCustomerName().isBlank()) throw new ResponseStatusException(HttpStatus.CONFLICT, "Tên khach hàng không được để trống");
         if (req.getCustomerEmail() == null || req.getCustomerEmail().isBlank()) throw new ResponseStatusException(HttpStatus.CONFLICT, "Email không được để trống"); ;
