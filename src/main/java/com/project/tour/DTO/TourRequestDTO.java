@@ -42,11 +42,16 @@ public class TourRequestDTO {
 
     // ----- Dữ liệu cho các mối quan hệ -----
     // Khi tạo tour, client chỉ cần gửi ID của các thực thể liên quan
-    
+
     @NotNull(message = "Cần chỉ định hướng dẫn viên")
     private String tourGuideId;
 
+    @NotNull(message = "Cần chỉ định khách sạn")
     private String accommodationId;
+
+    @NotNull(message = "Cần chỉ định phương tiện")
     private Set<String> travelVehicleIds;
+
+    @NotNull(message = "Cần chỉ định điểm đến")
     private Set<String> touristDestinationIds;
 }
