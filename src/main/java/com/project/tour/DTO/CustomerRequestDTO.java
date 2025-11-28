@@ -26,6 +26,6 @@ public class CustomerRequestDTO {
     @Past(message = "Ngày sinh phải là một ngày trong quá khứ")
     private LocalDate customerDateOfBirth;
 
-    @NotNull(message = "Cần liên kết với một tài khoản")
+    // Account ID có thể null vì customer có thể tồn tại mà không cần account
     private String accountId;
 }
