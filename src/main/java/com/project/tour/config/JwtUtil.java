@@ -1,4 +1,4 @@
-package com.project.tour.config;
+package com.project.tour.Config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

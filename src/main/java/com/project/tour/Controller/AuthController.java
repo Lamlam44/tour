@@ -7,12 +7,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.project.tour.Config.JwtUtil;
 import com.project.tour.DTO.LoginRequestDTO;
 import com.project.tour.DTO.LoginResponseDTO;
 import com.project.tour.Entity.Account;
 import com.project.tour.Repository.AccountRepository;
 import com.project.tour.Service.OAuthVerificationService;
-import com.project.tour.config.JwtUtil;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
