@@ -35,7 +35,7 @@ public class Customer {
     private LocalDate customerDateOfBirth;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "account_id", nullable = true)
     private Account account;
 
     @PrePersist
