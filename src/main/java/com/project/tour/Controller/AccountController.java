@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/accounts")
 @Validated
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class AccountController {
 
     private final AccountService accountService;
@@ -27,6 +28,7 @@ public class AccountController {
         AccountResponseDTO res = accountService.create(req);
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
+
 
     @GetMapping("/{id}")
     public AccountResponseDTO getById(@PathVariable String id) {
@@ -47,5 +49,11 @@ public class AccountController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
         accountService.delete(id);
+    }
+
+    @GetMapping("/verify")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void verify(@RequestParam("token") String token) {
+        accountService.verifyAccount(token);
     }
 }

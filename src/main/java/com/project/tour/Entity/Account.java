@@ -49,6 +49,15 @@ public class Account {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "email_verified", nullable = false)
+    private boolean emailVerified = false;
+
+    @Column(name = "verification_token")
+    private String verificationToken;
+
+    @Column(name = "verification_token_expiry")
+    private LocalDateTime verificationTokenExpiry;
+
     @Column(name = "account_created_at", nullable = false)
     private LocalDateTime accountCreatedAt;
 

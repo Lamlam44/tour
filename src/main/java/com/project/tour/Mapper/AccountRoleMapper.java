@@ -5,6 +5,7 @@ import com.project.tour.DTO.AccountRoleResponseDTO;
 import com.project.tour.Entity.AccountRole;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 /**
  * Mapper này chuyển đổi giữa AccountRole (Entity) và các DTO của nó.
@@ -28,4 +29,11 @@ public interface AccountRoleMapper {
     @Mapping(target = "accountRoleId", ignore = true)
     @Mapping(target = "accounts", ignore = true)
     AccountRole accountRoleRequestDTOToAccountRole(AccountRoleRequestDTO requestDTO);
+
+    /**
+     * Cập nhật entity AccountRole hiện có từ DTO (dùng cho UPDATE).
+     */
+    @Mapping(target = "accountRoleId", ignore = true)
+    @Mapping(target = "accounts", ignore = true)
+    void updateAccountRoleFromDto(AccountRoleRequestDTO dto, @MappingTarget AccountRole entity);
 }

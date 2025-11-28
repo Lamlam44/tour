@@ -10,11 +10,18 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import com.project.tour.StringPrefixedSequenceIdGenerator;
 
+// Thêm các import này
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+import com.project.tour.StringPrefixedSequenceIdGenerator;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "invoices")
+@SuppressWarnings("deprecation") // Tắt cảnh báo "deprecated"
 public class Invoice {
 
     @Id
