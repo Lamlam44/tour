@@ -18,4 +18,6 @@ public class AccountRequestDTO {
 
     @NotNull(message = "Vai trò không được để trống")
     private String roleId; // Client chỉ cần gửi ID của vai trò
+
+    private Boolean status = true; // Trạng thái tài khoản (active/inactive)
 }
