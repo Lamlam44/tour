@@ -43,8 +43,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         .orElseThrow(() -> new RuntimeException("ROLE_USER not found"));
 
         // Nếu đã có account → cho login bình thường
-        if (accountRepository.findByUsername(email).isPresent()) {
-            Account existing = accountRepository.findByUsername(email).get();
+        // Use the finder that fetches the role eagerly to ensure authorities are available
+        if (accountRepository.findByUsernameWithRole(email).isPresent()) {
+            Account existing = accountRepository.findByUsernameWithRole(email).get();
             return new CustomOAuth2User(oAuth2User, existing);
         }
 

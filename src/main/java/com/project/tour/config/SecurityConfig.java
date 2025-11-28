@@ -7,56 +7,64 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.project.tour.Security.CustomUserDetailsService;
-import com.project.tour.Security.CustomOAuth2UserService;
-
-import org.springframework.http.HttpMethod;
+import com.project.tour.Security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailService;
-    private final CustomOAuth2UserService customOAuth2UserService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailService, CustomOAuth2UserService customOAuth2UserService) {
+    public SecurityConfig(
+        CustomUserDetailsService customUserDetailService,
+        JwtAuthenticationFilter jwtAuthenticationFilter
+    ) {
         this.customUserDetailService = customUserDetailService;
-        this.customOAuth2UserService = customOAuth2UserService;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
+    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .cors(cors -> cors.configure(http)) // Enable CORS
             .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.POST, "/accounts").permitAll()
-                .requestMatchers(HttpMethod.GET, "/accounts/verify").permitAll()
-                .requestMatchers(HttpMethod.GET, "/oauth/verify").permitAll()
-                .requestMatchers(HttpMethod.GET, "/oauth/resend").permitAll()
-                .requestMatchers("/accounts").hasRole("ADMIN")
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/oauth/**").permitAll()
+                // Cho phép POST để đăng ký account và customer mới
+                .requestMatchers("POST", "/api/accounts").permitAll()
+                .requestMatchers("POST", "/api/customers").permitAll()
+                // Các request khác của accounts và customers cần ADMIN
+                .requestMatchers("/api/accounts/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/api/customers/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/api/account-roles/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().permitAll()
             )
-            .oauth2Login(oauth -> oauth
-            .userInfoEndpoint(user -> user.userService(customOAuth2UserService))
-            .defaultSuccessUrl("/accounts", true)
-            )
-
             .httpBasic(basic -> basic.disable())
-            .formLogin(form -> form.permitAll())
-            .logout(logout -> logout.permitAll());
+            .formLogin(form -> form.disable());
+            
+        // Thêm JWT filter trước UsernamePasswordAuthenticationFilter
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        
         return http.build();
     }
+    
     @Bean
     public AuthenticationManager authManager(HttpSecurity http, PasswordEncoder passwordEncoder) throws Exception {
         AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
         builder.userDetailsService(customUserDetailService).passwordEncoder(passwordEncoder);
         return builder.build();
     }
+    
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

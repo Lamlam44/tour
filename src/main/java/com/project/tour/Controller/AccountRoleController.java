@@ -15,9 +15,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/roles")
+@RequestMapping("/api/account-roles")
 @Validated
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class AccountRoleController {
 
     private final AccountRoleService accountRoleService;
