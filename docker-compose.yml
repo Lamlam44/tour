@@ -7,12 +7,14 @@ services:
     container_name: tour_mysql
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=123456  # Mật khẩu khớp với file properties của bạn
-      - MYSQL_DATABASE=quanlybantour # Tên DB khớp với file properties
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=quanlybantour
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
+      # Correct path relative to the "tour" folder:
+      - ./src/main/resources/create_sequences.sql:/docker-entrypoint-initdb.d/init.sql
 
   # 2. Cấu hình RabbitMQ
   rabbitmq:
@@ -20,11 +22,11 @@ services:
     container_name: tour_rabbitmq
     restart: always
     ports:
-      - "5672:5672"   # Cổng để Spring Boot kết nối
-      - "15672:15672" # Cổng để bạn vào web quản lý
+      - "5672:5672"
+      - "15672:15672"
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
 
 volumes:
-  db_data:
+  db_data:cd
